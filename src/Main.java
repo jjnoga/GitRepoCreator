@@ -61,6 +61,10 @@ public class Main {
         JComboBox visible = new JComboBox(visibility);
         visible.setBounds(150, 300, 100, 30);
         mainPanel.add(visible);
+
+        JLabel url = new JLabel("URL: N/A");
+        url.setBounds(25, 400, 300, 30);
+        mainPanel.add(url);
         
         JButton button = new JButton("Open File");
         button.setBounds(150, 350, 100, 30);
@@ -78,17 +82,19 @@ public class Main {
                 else theVis = false;
                 GitSubprocessClient gsc = new GitSubprocessClient(repoPath);
                 GitHubApiClient api = new GitHubApiClient(user, pass);
-                createGithubRepo(gsc, api, repoName, desc, theVis);
+                String newurl = createGithubRepo(gsc, api, user, repoName, desc, theVis);
+                url.setText("URL: " + newurl);
             }
         } );
         mainPanel.add(button);
+
 
         // will show the window
         window.setContentPane(mainPanel);
         window.setVisible(true);
     }
 
-    public static void createGithubRepo(GitSubprocessClient gsc, GitHubApiClient api, String repoName, String desc, Boolean visible) {
+    public static String createGithubRepo(GitSubprocessClient gsc, GitHubApiClient api, String user, String repoName, String desc, Boolean visible) {
         String gitinit = gsc.gitInit(); //turn project into git project
         System.out.println(gitinit);
 
@@ -118,7 +124,12 @@ public class Main {
             System.err.println("Error creating README.md: " + e.getMessage());
         }
 
+        //String addGitIgnore = gsc.gitAddFile(gitinit.substring(gitinit.indexOf("C:")) + ".gitignore");
+        //String addReadMe = gsc.gitAddFile(gitinit.substring(gitinit.indexOf("C:")) + "README.md");
+        //System.out.println(addGitIgnore);
+        //System.out.println(addReadMe);
         String addAll = gsc.gitAddAll();
+        //System.out.println(addAll);
         String commit = gsc.gitCommit("Initial commit");
 
         RequestParams requestParams = new RequestParams();
@@ -127,5 +138,11 @@ public class Main {
         requestParams.addParam("private" , visible);
         CreateRepoResponse createRepo = api.createRepo(requestParams);
 
+        String webURL = "https://github.com/" + user + "/" + repoName;
+        String gitRemoteOrigin = gsc.gitRemoteAdd("origin", webURL + ".git");
+        System.out.println(gitRemoteOrigin);
+        String push = gsc.gitPush("master");
+        System.out.println(push);
+        return webURL;
     }
 }
