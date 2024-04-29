@@ -5,6 +5,9 @@ import git.tools.client.GitSubprocessClient;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Main {
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -81,7 +84,35 @@ public class Main {
         window.setVisible(true);
     }
 
-    public static void createGithubRepo(GitSubprocessClient gsc, GitHubApiClient api, String repoName, String desc, String visibile) {
-        
+    public static void createGithubRepo(GitSubprocessClient gsc, GitHubApiClient api, String repoName, String desc, String visible) {
+        String gitinit = gsc.gitInit(); //turn project into git project
+        System.out.println(gitinit);
+
+        // Create the directory for the repository
+        File repoDir = new File(gitinit.substring(gitinit.indexOf("C:")));
+        if (!repoDir.exists()) {
+            repoDir.mkdirs();
+        }
+
+        // Create and write .gitignore file
+        File gitignore = new File(repoDir, ".gitignore");
+        try (FileWriter fw = new FileWriter(gitignore)) {
+            String gitignoreContent = "# Compiled class file\n*.class\n\n# Log file\n*.log\n\n# BlueJ files\n*.ctxt\n\n# Mobile Tools for Java (J2ME)\n.mtj.tmp/\n\n# Package Files #\n*.jar\n*.war\n*.nar\n*.ear\n*.zip\n*.tar.gz\n*.rar\n\n# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml\nhs_err_pid*\nreplay_pid*";
+            fw.write(gitignoreContent);
+            System.out.println(".gitignore created at: " + gitignore.getAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Error creating .gitignore: " + e.getMessage());
+        }
+
+        // Create and write README.md file
+        File readme = new File(repoDir, "README.md");
+        try (FileWriter fw = new FileWriter(readme)) {
+            String readmeContent = "# " + repoName;
+            fw.write(readmeContent);
+            System.out.println("README.md created at: " + readme.getAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Error creating README.md: " + e.getMessage());
+        }
+
     }
 }
