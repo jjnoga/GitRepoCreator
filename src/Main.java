@@ -1,4 +1,5 @@
 import github.tools.client.GitHubApiClient;
+import github.tools.client.RequestParams;
 import github.tools.responseObjects.*;
 import git.tools.client.GitSubprocessClient;
 
@@ -72,9 +73,12 @@ public class Main {
                 String repoName = reponame.getText();
                 String desc = description.getText();
                 String vis = (String) visible.getSelectedItem();
+                boolean theVis;
+                if (vis.equals("Private")) theVis = true;
+                else theVis = false;
                 GitSubprocessClient gsc = new GitSubprocessClient(repoPath);
                 GitHubApiClient api = new GitHubApiClient(user, pass);
-                createGithubRepo(gsc, api, repoName, desc, vis);
+                createGithubRepo(gsc, api, repoName, desc, theVis);
             }
         } );
         mainPanel.add(button);
@@ -84,7 +88,7 @@ public class Main {
         window.setVisible(true);
     }
 
-    public static void createGithubRepo(GitSubprocessClient gsc, GitHubApiClient api, String repoName, String desc, String visible) {
+    public static void createGithubRepo(GitSubprocessClient gsc, GitHubApiClient api, String repoName, String desc, Boolean visible) {
         String gitinit = gsc.gitInit(); //turn project into git project
         System.out.println(gitinit);
 
@@ -113,6 +117,15 @@ public class Main {
         } catch (IOException e) {
             System.err.println("Error creating README.md: " + e.getMessage());
         }
+
+        String addAll = gsc.gitAddAll();
+        String commit = gsc.gitCommit("Initial commit");
+
+        RequestParams requestParams = new RequestParams();
+        requestParams.addParam("name" , repoName);
+        requestParams.addParam("description" , desc);
+        requestParams.addParam("private" , visible);
+        CreateRepoResponse createRepo = api.createRepo(requestParams);
 
     }
 }
