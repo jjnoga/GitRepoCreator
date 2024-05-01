@@ -6,28 +6,41 @@
 
     <body>
         <h2 class="subheader">
-            The name of this project is GitRepoCreator!
+            GitRepoCreator
         </h2>
         <p class="paragraph">
-            This assignment was to create a java application that autonomously does the things we have been learning how to do in this class.<br>
-            That being, it should autonomously turn any project folder on the user's computer into a git repo on their computer as well as on GitHub
-            and provide the user with a link to said repo.<br>
+            Welcome to the website for the GitRepoCreator! This Java application autonomously establishes a Git repository in a given project filepath<br>
+            and creates a repository for the project on GitHub thereafter. This program returns the link to the newly-created repository once all of the
+            text fields have been filled out appropriately.<br>
             <br>
-            This is done through many steps, first implementing JFrame to allow the user to click and type on and in different text boxes and buttons.<br>
-            Next, we had to implement different git api tools that allowed us to type the git commands into the actual code rather than the terminal
-            as we have been for most of the semester.
+            This goal is accomplished through various steps, the first of which being the implementation of a JFrame UI system that allows the user to click on and type in different text boxes and buttons.
+            Next, a Git Subprocessing Client and API tool allow for the execution of Git commands throughout the code rather than needing to manually
+            type them out in the terminal.
         </p>
 
         <h1 class="header">
-            To use the GitRepoCreator please follow these steps:
+            Setup intructions:
         </h1>
         <p class="paragraph2">
-            1. Enter your github username.<br>
-            2. Enter your github personalized token. More info <a href=https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens>here!</a><br>
-            3. Copy/paste the file path of the file you are turning into a git repo.<br>
+            1. Download the source code from <a href=https://github.com/jjnoga/GitRepoCreator>this</a> GitHub link!<br>
+            2. Ensure that your Java version is at least 17. (Install from <a href=https://www.oracle.com/java/technologies/downloads/#jdk17-windows>this website</a>.)<br>
+            3. Download the required GitSubprocessClient and GitHubApiClient libraries as .jar files from the websites in <a href=https://github.com/CSC109/GitSubprocessClient>this</a> and <a href=https://github.com/CSC109/GitHubApiClient>this</a> repository respectively.<br>
+            4. Integrate these new libraries within your IDE.<br>
+            &emsp;- If you are using Visual Studio Code (which you most likely are if you're seeing this website), open the IDE, drop down the header that says "Java Projects" <br>
+            &emsp;towards the bottom of the Explorer tab.<br>
+            &emsp;- Drop down the "Referenced Libraries" tab within Java Projects, and copy/paste the .jar files inside. You should now have the required libraries to run the program!<br>
+        </p>
+
+        <h1 class="header">
+            Usage intructions:
+        </h1>
+        <p class="paragraph2">
+            1. Enter your GitHub username.<br>
+            2. Enter your GitHub personalized token (password). More info <a href=https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens>here!</a><br>
+            3. Copy/paste the file path of the project you are turning into a Git repo.<br>
             4. Enter the name that you want your new repo to have.<br>
             5. Give a short description of the newly made repo (what it does or what it will do).<br>
             6. Decide if you would like the repo to be public or private on GitHub.<br>
-            7. Click Open file and wait for the URL for your new repo to pop up!<br>
+            7. Click the button and wait for the URL for your new repo to pop up!<br>
         </p>
     </body>
