@@ -124,8 +124,8 @@ public class Main {
             System.err.println("Error creating README.md: " + e.getMessage());
         }
 
-        //String addGitIgnore = gsc.gitAddFile(gitinit.substring(gitinit.indexOf("C:")) + ".gitignore");
-        //String addReadMe = gsc.gitAddFile(gitinit.substring(gitinit.indexOf("C:")) + "README.md");
+        String addGitIgnore = gsc.gitAddFile(gitinit.substring(gitinit.indexOf("C:")) + ".gitignore");
+        String addReadMe = gsc.gitAddFile(gitinit.substring(gitinit.indexOf("C:")) + "README.md");
         //System.out.println(addGitIgnore);
         //System.out.println(addReadMe);
         String addAll = gsc.gitAddAll();
